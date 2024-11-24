@@ -91,16 +91,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias viv="nohup vivaldi &> /dev/null &"
-alias PO="poweroff"
-alias RB="reboot"
-alias lol="l | lolcat"
-alias ecr="echo $?"
-alias ccheck="cargo check"
-alias crun="cargo run"
-alias cbuild="cargo build"
-alias cbuildr="cargo build --release"
-
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -126,24 +116,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/catalin/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/catalin/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/catalin/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/catalin/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias viv="nohup vivaldi &> /dev/null &"
+alias PO="poweroff"
+alias RB="reboot"
+alias lol="l | lolcat"
+alias ecr="echo $?"
+alias ccheck="cargo check"
+alias crun="cargo run"
+alias cbuild="cargo build"
+alias cbuildr="cargo build --release"
 . "$HOME/.cargo/env"
-
-. "$HOME/.atuin/bin/env"
-
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
