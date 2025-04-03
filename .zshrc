@@ -1,52 +1,35 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH:/home/catalin/Games/factorio/factorio/bin/x64:/home/catalin/Downloads/ghidra_11.3.1_PUBLIC
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+export JAVA_HOME="/home/catalin/Downloads/openjdk21"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "bira" "agnoster" )
+export WIN="/media/catalin/win"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+export GH="https://github.com"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
+ZSH_THEME="gallois"
+# ZSH_THEME=random
+# ZSH_THEME_RANDOM_CANDIDATES=( "bira" "agnoster" "robbyrussell" "fino-time" "gallois" "imajes" "itchy" "jnrowe" "minimal" "nicoulaj"  )
+
+CASE_SENSITIVE="true"
+
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment one of the following lines to change the auto-update behavior
-zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-zstyle ':omz:update' frequency 13
+zstyle ':omz:update' frequency 10
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
 DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -60,7 +43,7 @@ COMPLETION_WAITING_DOTS="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="dd-mm-yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -76,13 +59,12 @@ plugins=(
 	zsh-syntax-highlighting
 	zsh-history-substring-search
 	zsh-z
-	colored-man-pages
+	emotty
+	emoji
+	#colored-man-pages
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -109,11 +91,9 @@ prompt_context(){}
 # fortune told by animal 
 # fortune -l | cowsay -f `ls -1 /usr/share/cowsay/cows/ | sort -R | head -1` -n
 
-# cat ~/reminders
 
-#neovim install
-export PATH="$PATH:/opt/nvim-linux64/bin"
 
+alias index="nohup vivaldi index.html &"
 alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
 alias viv="nohup vivaldi &> /dev/null &"
@@ -126,14 +106,25 @@ alias crun="cargo run"
 alias cbuild="cargo build"
 alias cbuildr="cargo build --release"
 alias mna="man"
-alias help=run-help
+alias help="run-help"
 alias Man="man -a"
 alias cmat="cmatrix -u 9| lolcat -p 100 -i"
 alias clr="clear"
-alias chmac="~/MYPATH/chmac.sh"
+alias chmac="chmac.sh"
 alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
 alias cdop="cd $OLDPWD"
 alias x="exit"
+alias all="make all"
+alias nemo="nohup nemo . &"
+alias c="clear"
+alias Ctemplate="~/Homepath/templates/C_template.sh"
+alias CppTemplate="~/Homepath/templates/Cpp_template.sh"
+alias ClassTemplate="~/Homepath/templates/ClassTemplate.sh"
+alias rmf="rm -rf"
+alias mkdir="mkdir -p"
+alias cdwin="/media/catalin/win"
 
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
+
+[ -f "/home/catalin/.ghcup/env" ] && . "/home/catalin/.ghcup/env" # ghcup-env

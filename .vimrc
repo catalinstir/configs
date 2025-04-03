@@ -46,6 +46,7 @@ map <Space> <Leader>
 " Mappings code goes here.
 noremap ; :
 noremap : ;
+noremap ! :!
 
 " NERDTree
 nnoremap <C-n> :NERDTree<CR>
@@ -54,7 +55,7 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 " COC.VIM 
 inoremap <silent><expr> <C-Space> coc#refresh()
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> K :call CocActionAsync('doHover')<CR>
+" nmap <silent> K :call CocActionAsync('doHover')<CR>
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
@@ -71,7 +72,9 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" nnoremap <silent> K :call ShowDocumentation()<CR>
+nnoremap <Leader>b <C-t>
+nnoremap <Leader>d <C-]>
 " Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -88,6 +91,8 @@ noremap <leader>0 :tablast<cr>
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+
+set pastetoggle=<F3>
 " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
@@ -105,6 +110,13 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 
 let g:NERDTreeWinSize=20
+" let g:NERDTreeWinPos = "right"
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
+
+" Open the existing NERDTree on each new tab.
+" autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 " More Vimscripts code goes here.
@@ -112,7 +124,7 @@ set updatetime=300
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'powerlineish'
 set clipboard=unnamedplus
-colorscheme sonokai
+colorscheme spacecamp_lite
 " gruvbox
 " purify
 " sonokai
