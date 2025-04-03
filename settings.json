@@ -1,0 +1,19 @@
+{
+    "workbench.colorTheme": "Visual Studio Blue",
+    "git.openRepositoryInParentFolders": "never",
+    "remote.SSH.remotePlatform": {
+        "laborator-std": "linux"
+    },
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "Cascadia , 'Cascadia Mono', monospace",
+    "editor.fontLigatures": true,
+    "editor.fontVariations": false,
+    "workbench.colorCustomizations": {
+        "statusBarItem.remoteBackground": "#fcd579",
+        "statusBarItem.remoteForeground": "#000000",
+        "activityBarBadge.background": "#fcd579",
+        "activityBarBadge.foreground": "#000000",
+    },
+    "window.restoreFullscreen": true,
+    "window.newWindowDimensions": "inherit"
+}
