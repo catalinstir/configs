@@ -110,7 +110,6 @@ alias help="run-help"
 alias Man="man -a"
 alias cmat="cmatrix -u 9| lolcat -p 100 -i"
 alias clr="clear"
-alias chmac="chmac.sh"
 alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
 alias cdop="cd $OLDPWD"
 alias x="exit"
@@ -123,8 +122,31 @@ alias ClassTemplate="~/Homepath/templates/ClassTemplate.sh"
 alias rmf="rm -rf"
 alias mkdir="mkdir -p"
 alias cdwin="/media/catalin/win"
+alias run="make run"
+alias r="fc -s"
 
+
+chmac() {
+	sudo ifconfig wlp0s20f3 down
+	sudo ifconfig wlp0s20f3 hw ether 34:6F:24:EA:56:1B
+	sudo ifconfig wlp0s20f3 up
+}
+quick() {
+	gcc $1.c -o $1 && ./$1
+	rm $1
+}
+quick+() {
+	g++ $1.cpp -o $1 -lcrypto -Wno-deprecated-declarations && ./$1
+	rm $1
+}
+xampp() {
+	sudo /opt/lampp/xampp start
+}
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 
 [ -f "/home/catalin/.ghcup/env" ] && . "/home/catalin/.ghcup/env" # ghcup-env
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
