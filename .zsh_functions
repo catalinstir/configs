@@ -1,0 +1,89 @@
+chmac() {
+	sudo ifconfig wlp0s20f3 down
+	sudo ifconfig wlp0s20f3 hw ether 34:6F:24:EA:56:1B
+	sudo ifconfig wlp0s20f3 up
+}
+quick() {
+	gcc $1.c -o $1 && ./$1
+	rm $1
+}
+quick+() {
+	g++ $1.cpp -o $1 -lcrypto -Wno-deprecated-declarations && ./$1
+	rm $1
+}
+xampp() {
+	sudo /opt/lampp/xampp start
+}
+add_executables_to_gitignore() {
+    if [ ! -f .gitignore ]; then
+        echo ".gitignore not found in the current directory."
+        return 1
+    fi
+
+    echo "Searching for untracked executables with no extension..."
+
+    # Patterns to exclude by name (feel free to extend)
+    local excluded_names=("Makefile" "README" "LICENSE" "REPORT.txt")
+
+    executables=()
+    while IFS= read -r file; do
+        filename=$(basename "$file")
+
+        # Check if it's a regular executable file with no extension
+        if [[ -f "$file" && -x "$file" && "$filename" != *.* ]]; then
+            # Exclude known non-executables
+            skip=false
+            for ex in "${excluded_names[@]}"; do
+                if [[ "$filename" == "$ex" ]]; then
+                    skip=true
+                    break
+                fi
+            done
+            $skip || executables+=("$file")
+        fi
+    done < <(git ls-files --others --exclude-standard)
+
+    if [ ${#executables[@]} -eq 0 ]; then
+        echo "No matching untracked executables found."
+        return 0
+    fi
+
+    echo "Found the following untracked executables:"
+    for file in "${executables[@]}"; do
+        echo "  - $file"
+    done
+
+    echo -n "Add these to .gitignore? [y/N]: "
+    read -r confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        for file in "${executables[@]}"; do
+            if ! grep -qxF "$file" .gitignore; then
+                echo "$file" >> .gitignore
+                echo "Added: $file"
+            fi
+        done
+        echo "Done!"
+    else
+        echo "Aborted. No changes made to .gitignore."
+    fi
+}
+clean_empty_dirs() {
+    find . -type d -empty -exec rm -r {} \; -exec echo "Deleted empty directory: {}" \;
+}
+backup_gitignore() {
+    if [ -f .gitignore ]; then
+        cp .gitignore .gitignore.bak
+        echo "Backup created: .gitignore.bak"
+    else
+        echo ".gitignore file not found!"
+    fi
+}
+clean_old_logs() {
+    local days=$1
+    find . -type f -name "*.log" -mtime +$days -exec rm -v {} \;
+    echo "Removed logs older than $days days."
+}
+directory_size_report() {
+    du -sh */ | sort -rh
+}
+

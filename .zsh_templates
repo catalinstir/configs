@@ -1,0 +1,169 @@
+class_template() {
+	echo "Enter class name: "
+	read -r class_name
+
+	header_file="${class_name}.h"
+	source_file="${class_name}.cpp"
+
+	if [[ ! -d "header" && ! -d "source" ]]
+	then
+		echo "Create directories 'source' and 'header'? [y/n]: "
+		read -rs -k1 ans
+	else
+		ans="y"
+	fi
+	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
+	then
+		mkdir -p "header"
+		mkdir -p "source"
+		header_file="header/${header_file}"
+		source_file="source/${source_file}"
+	fi
+
+	touch "$header_file"
+	touch "$source_file"
+	if [[ -d "header" ]]
+	then
+		include_header_file="../${header_file}"
+	else
+		include_header_file="${header_file}"
+	fi
+	printf "#include \"%s\"\n" "$include_header_file" > "$source_file"
+
+	echo "Inherited from (Enter for not inherited): "
+	read -r ans
+	if [[ -n "$ans" ]]
+	then
+		parent_class="${ans}"
+		printf "#pragma once\n#include \"%s.h\"\n\nclass %s : public %s{\n\n};" \
+		"$parent_class" \
+		"$class_name" \
+		"$parent_class" \
+		> "$header_file"
+	else
+		printf "#pragma once\n\nclass %s{\n\n};" \
+		"$class_name" \
+		> "$header_file"
+	fi
+
+	MAKEFILE="Makefile"
+	if [[ -f "$MAKEFILE" ]]
+	then
+		sed -i "/^SOURCE/s|\$| ${source_file}|" "$MAKEFILE"
+	fi
+
+	return 0
+}
+
+cpp_template() {
+	echo "Enter source name: "
+	while read -r filename && [[ -z "$filename" ]]; do :; done
+	original_filename="$filename"
+
+	if [[ "$filename" != *.cpp ]]; then
+		new_filename="${filename}.cpp"
+		filename=$new_filename
+	fi
+
+	if [[ ! -d "header" && ! -d "source" ]]
+	then
+		echo "Create directories 'source' and 'header'? [y/n]: "
+		read -rs -k1 ans
+	else
+		ans="y"
+	fi
+	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
+	then
+		mkdir -p "source"
+		mkdir -p "header"
+		filename="source/${filename}"
+	fi
+
+	touch "$filename"
+	printf "#include <iostream>\n\nint main(int argc, char** argv) {\n\n    return 0;\n}\n" > "$filename"
+
+	if [[ ! -f "Makefile" ]]
+	then
+		echo "Create Makefile? [y/n]: "
+		read -rs -k1 ans
+		echo "Link OpenSSL? [y/n]: "
+		read -rs -k1 ssl
+	else
+		ans="n"
+		ssl="n"
+	fi
+	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
+	then
+		touch "Makefile"
+		original_filename="${original_filename%.c}"
+
+		printf "SOURCE = %s\n\nall: %s\n\n%s: %s\n\tg++ \${SOURCE} -o %s " \
+			"$filename" \
+			"$original_filename" \
+			"$original_filename" \
+			"$filename" \
+			"$original_filename" \
+			> "Makefile"
+		if [[ "$ssl" = "y" || "$ssl" = "Y" || -z "$ssl" ]]
+		then
+			printf -- "-lcrypto -Wno-deprecated-declarations\n" >> "Makefile"
+			sed -i '/#include <iostream>/a \#include <openssl/evp.h>\n#include <openssl/asn1.h>' $filename
+		else
+			printf -- "\n" >> "Makefile"
+		fi
+
+	fi
+
+	return 0
+}
+
+c_template() {
+	echo "Enter source name: "
+	read -r filename
+	original_filename="$filename"
+
+	if [[ "$filename" != *.c ]]; then
+		new_filename="${filename}.c"
+		filename=$new_filename
+	fi
+
+	if [[ ! -d "header" && ! -d "source" ]]
+	then
+		echo "Create directories 'source' and 'header'? [y/n]: "
+		read -rs -k1 ans
+	else
+		ans="y"
+	fi
+	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
+	then
+		mkdir -p "source"
+		mkdir -p "header"
+		filename="source/${filename}"
+	fi
+
+	touch "$filename"
+	printf "#include <stdio.h>\n#include <stdlib.h>\n\nint main(int argc, char** argv) {\n\n    return 0;\n}\n" > "$filename"
+
+	if [[ ! -f "Makefile" ]]
+	then
+		echo "Create Makefile? [y/n]: "
+		read -rs -k1 ans
+	else
+		ans="n"
+	fi
+	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
+	then
+		touch "Makefile"
+		original_filename="${original_filename%.c}"
+
+		printf "SOURCE = %s\n\nall: %s\n\n%s: %s\n\tgcc \${SOURCE} -o %s\n" \
+			"$filename" \
+			"$original_filename" \
+			"$original_filename" \
+			"$filename" \
+			"$original_filename" \
+			> "Makefile"
+	fi
+
+	return 0
+}

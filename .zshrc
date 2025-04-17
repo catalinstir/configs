@@ -91,12 +91,13 @@ prompt_context(){}
 # fortune told by animal 
 # fortune -l | cowsay -f `ls -1 /usr/share/cowsay/cows/ | sort -R | head -1` -n
 
-
+source ~/.zsh_functions
+source ~/.zsh_templates
 
 alias index="nohup vivaldi index.html &"
 alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
-alias viv="nohup vivaldi &> /dev/null &"
+alias viv="nohup vivaldi &> /dev/null & disown"
 alias PO="poweroff"
 alias RB="reboot"
 alias lol="l | lolcat"
@@ -122,26 +123,8 @@ alias ClassTemplate="~/Homepath/templates/ClassTemplate.sh"
 alias rmf="rm -rf"
 alias mkdir="mkdir -p"
 alias cdwin="/media/catalin/win"
-alias run="make run"
 alias r="fc -s"
-
-
-chmac() {
-	sudo ifconfig wlp0s20f3 down
-	sudo ifconfig wlp0s20f3 hw ether 34:6F:24:EA:56:1B
-	sudo ifconfig wlp0s20f3 up
-}
-quick() {
-	gcc $1.c -o $1 && ./$1
-	rm $1
-}
-quick+() {
-	g++ $1.cpp -o $1 -lcrypto -Wno-deprecated-declarations && ./$1
-	rm $1
-}
-xampp() {
-	sudo /opt/lampp/xampp start
-}
+alias sl="ls"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 
