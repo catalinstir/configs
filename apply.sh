@@ -2,7 +2,13 @@
 
 copy_file() {
     local file=$1
-    cp "./$file" ~/$file
+    if [[ $# -e 2 ]]
+    then
+        local dest=$2
+    else
+        local dest=~/$file
+    fi
+    cp -r "./$file" $dest
     echo "$file has been applied."
 }
 
@@ -14,6 +20,7 @@ while true; do
     echo "[4] .zsh_functions"
     echo "[5] .zsh_templates"
 	echo "[6] settings.json (vscode)"
+    echo "[7] nvim (directory)"
     echo "[a] all"
     echo "[q] quit"
     read -p "Enter your choice: " choice
@@ -38,6 +45,9 @@ while true; do
 			copy_file settings.json ~/.config/Code/User/settings.json
 			echo "settings.json has been applied"
 			;;
+        7)
+            copy_file "nvim"
+            ;;
         a)
             copy_file ".vimrc"
             copy_file ".bashrc"

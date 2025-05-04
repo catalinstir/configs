@@ -4,7 +4,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH:/home/catalin/Games/factorio/factorio
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-export JAVA_HOME="/home/catalin/Downloads/openjdk21"
+export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 
 export WIN="/media/catalin/win"
 
@@ -61,7 +61,8 @@ plugins=(
 	zsh-z
 	emotty
 	emoji
-	#colored-man-pages
+	fzf
+	colored-man-pages
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -91,40 +92,53 @@ prompt_context(){}
 # fortune told by animal 
 # fortune -l | cowsay -f `ls -1 /usr/share/cowsay/cows/ | sort -R | head -1` -n
 
+# Other functions
 source ~/.zsh_functions
 source ~/.zsh_templates
 
+# Programs
 alias index="nohup vivaldi index.html &"
-alias vimrc="vim ~/.vimrc"
-alias zshrc="vim ~/.zshrc"
 alias viv="nohup vivaldi &> /dev/null & disown"
+alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
+alias nemo="nohup nemo . &"
+
+# Configing
+alias nvimrc="cd ~/.config/nvim && nvim"
+alias vimrc="nvim ~/.vimrc"
+alias zshrc="nvim ~/.zshrc"
+alias zource="source ~/.zshrc"
+
+# System
 alias PO="poweroff"
 alias RB="reboot"
+
+# Messing around
 alias lol="l | lolcat"
-alias ecr="echo $?"
+alias cmat="cmatrix -u 9| lolcat -p 100 -i"
+
+# Rust
 alias ccheck="cargo check"
 alias crun="cargo run"
 alias cbuild="cargo build"
 alias cbuildr="cargo build --release"
+
+# QOL
 alias mna="man"
-alias help="run-help"
 alias Man="man -a"
-alias cmat="cmatrix -u 9| lolcat -p 100 -i"
-alias clr="clear"
-alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
+alias nivm="nvim"
+alias ecr="echo $?"
 alias cdop="cd $OLDPWD"
 alias x="exit"
 alias all="make all"
-alias nemo="nohup nemo . &"
-alias c="clear"
-alias Ctemplate="~/Homepath/templates/C_template.sh"
-alias CppTemplate="~/Homepath/templates/Cpp_template.sh"
-alias ClassTemplate="~/Homepath/templates/ClassTemplate.sh"
+alias help="run-help"
+alias clr="clear"
 alias rmf="rm -rf"
 alias mkdir="mkdir -p"
-alias cdwin="/media/catalin/win"
+alias cdwin="/media/catalin/win/Users/catal"
+alias c="clear"
 alias r="fc -s"
 alias sl="ls"
+alias f="fzf --preview='cat {}'"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 
