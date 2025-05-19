@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 
-export WIN="/media/catalin/win"
+export WIN="/mnt/36280B70280B2F05"
 
 export GH="https://github.com"
 
@@ -103,7 +103,7 @@ alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
 alias nemo="nohup nemo . &"
 
 # Configing
-alias nvimrc="cd ~/.config/nvim && nvim"
+alias nvimrc="cd ~/.config/nvim && nvim && cd -"
 alias vimrc="nvim ~/.vimrc"
 alias zshrc="nvim ~/.zshrc"
 alias zource="source ~/.zshrc"
@@ -134,11 +134,17 @@ alias help="run-help"
 alias clr="clear"
 alias rmf="rm -rf"
 alias mkdir="mkdir -p"
-alias cdwin="/media/catalin/win/Users/catal"
+alias cdwin="cd $WIN"
 alias c="clear"
 alias r="fc -s"
+alias k="kubectl"
 alias sl="ls"
 alias f="fzf --preview='cat {}'"
+alias docker-compose="docker compose"
+alias dcu="docker compose up -d"
+alias dcd="docker compose down -v"
+alias dspv="docker system prune -f --volumes"
+alias ag="alias | grep"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 

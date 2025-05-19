@@ -86,4 +86,24 @@ clean_old_logs() {
 directory_size_report() {
     du -sh */ | sort -rh
 }
+Nasm() {
+    if [[ $# -ne 1 ]]
+    then
+        echo "Invalid number of parameters."
+        echo "Expected one .asm file"
+        return 1;
+    fi
 
+    file=$1
+    if [ "${file##*.}" != "asm" ]
+    then
+        echo "Invalid file."
+        echo "Expected .asm file"
+        return 1;
+    fi
+
+    basename="${file%.*}"
+   	nasm -f elf32 -o temp.o "${file}"
+	ld -m elf_i386 -o "${basename}" temp.o   
+    rm temp.o
+}
