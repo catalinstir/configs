@@ -3,13 +3,11 @@ chmac() {
 	sudo ifconfig wlp0s20f3 hw ether 34:6F:24:EA:56:1B
 	sudo ifconfig wlp0s20f3 up
 }
-quick() {
-	gcc $1.c -o $1 && ./$1
-	rm $1
+CC() {
+	gcc $1.c -Wall -o $1 -lm && ./$1 && rm $1
 }
-quick+() {
-	g++ $1.cpp -o $1 -lcrypto -Wno-deprecated-declarations && ./$1
-	rm $1
+CC++() {
+	g++ $1.cpp -Wall -o $1 -lm -lcrypto -Wno-deprecated-declarations && ./$1 && rm $1
 }
 xampp() {
 	sudo /opt/lampp/xampp start

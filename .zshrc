@@ -14,7 +14,7 @@ ZSH_THEME="gallois"
 # ZSH_THEME=random
 # ZSH_THEME_RANDOM_CANDIDATES=( "bira" "agnoster" "robbyrussell" "fino-time" "gallois" "imajes" "itchy" "jnrowe" "minimal" "nicoulaj"  )
 
-CASE_SENSITIVE="true"
+CASE_SENSITIVE="false"
 
 # HYPHEN_INSENSITIVE="true"
 
@@ -99,14 +99,18 @@ source ~/.zsh_templates
 # Programs
 alias index="nohup vivaldi index.html &"
 alias viv="nohup vivaldi &> /dev/null & disown"
-alias arduino="~/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage"
+alias arduino="/home/catalin/Projects/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage &"
 alias nemo="nohup nemo . &"
+alias p3="python3"
+alias pd3="pydoc3"
+alias devpy="source ~/.venv/dev/bin/activate"
 
 # Configing
 alias nvimrc="cd ~/.config/nvim && nvim && cd -"
 alias vimrc="nvim ~/.vimrc"
 alias zshrc="nvim ~/.zshrc"
 alias zource="source ~/.zshrc"
+alias tmuxrc="nvim ~/.tmux.conf"
 
 # System
 alias PO="poweroff"
@@ -145,6 +149,7 @@ alias dcu="docker compose up -d"
 alias dcd="docker compose down -v"
 alias dspv="docker system prune -f --volumes"
 alias ag="alias | grep"
+alias nrd="npm run dev"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 

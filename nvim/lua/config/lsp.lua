@@ -7,7 +7,7 @@ local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- General LSP setup
-local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls" }
+local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls", "pylsp"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
@@ -69,12 +69,8 @@ lspconfig.cssls.setup({
   end,
 })
 
--- Diagnostic configuration
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = '●',
-    source = "always",
-  },
+  virtual_text = false,  -- disable inline diagnostics
   signs = true,
   underline = true,
   update_in_insert = false,

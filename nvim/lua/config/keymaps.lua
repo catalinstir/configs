@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>t", ":NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>")
 vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>")
 
@@ -33,3 +33,13 @@ vim.api.nvim_set_keymap('n', '<Leader>7', '7gt', { noremap = true, silent = true
 vim.api.nvim_set_keymap('n', '<Leader>8', '8gt', { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command('Tn', 'tabnew', {})
+
+-- WINDOW RESIZE
+-- vertically 
+vim.keymap.set("n", "<leader><", ":vertical resize -2<CR>", { noremap = true, silent = true, desc = "Resize window narrower" })
+vim.keymap.set("n", "<leader>>", ":vertical resize +2<CR>", { noremap = true, silent = true, desc = "Resize window wider" })
+
+-- horizontally
+vim.keymap.set("n", "<leader>-", ":resize -2<CR>", { noremap = true, silent = true, desc = "Resize window shorter" })
+vim.keymap.set("n", "<leader>+", ":resize +2<CR>", { noremap = true, silent = true, desc = "Resize window taller" })
+

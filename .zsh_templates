@@ -1,4 +1,4 @@
-class_template() {
+Class() {
 	echo "Enter class name: "
 	read -r class_name
 
@@ -55,7 +55,7 @@ class_template() {
 	return 0
 }
 
-cpp_template() {
+C++() {
 	echo "Enter source name: "
 	while read -r filename && [[ -z "$filename" ]]; do :; done
 	original_filename="$filename"
@@ -117,7 +117,7 @@ cpp_template() {
 	return 0
 }
 
-c_template() {
+C() {
 	echo "Enter source name: "
 	read -r filename
 	original_filename="$filename"

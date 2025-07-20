@@ -9,7 +9,6 @@
   "editor.fontFamily": "Cascadia , 'Cascadia Mono', monospace",
   "editor.fontLigatures": true,
   "editor.fontVariations": false,
-  "workbench.colorTheme": "Solarized Light",
   "editor.formatOnSave": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -219,5 +218,6 @@
   "latex-workshop.formatting.latex": "latexindent",
   "editor.acceptSuggestionOnEnter": "off",
   "window.zoomLevel": 1,
+  "workbench.colorTheme": "Default Light Modern",
 
 }
