@@ -1,5 +1,5 @@
 return {
-  "conform.nvim",  
+  "stevearc/conform.nvim",  
 
   config = function()
     require("conform").setup({

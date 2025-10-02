@@ -6,8 +6,8 @@ chmac() {
 CC() {
 	gcc $1.c -Wall -o $1 -lm && ./$1 && rm $1
 }
-CC++() {
-	g++ $1.cpp -Wall -o $1 -lm -lcrypto -Wno-deprecated-declarations && ./$1 && rm $1
+Cmake() {
+    cmake -S . -B build && cmake --build build
 }
 xampp() {
 	sudo /opt/lampp/xampp start
@@ -105,3 +105,12 @@ Nasm() {
 	ld -m elf_i386 -o "${basename}" temp.o   
     rm temp.o
 }
+
+gdrive() {
+    rclone mount 'gdrive:' ~/gdrive --vfs-cache-mode full --daemon
+}
+
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+

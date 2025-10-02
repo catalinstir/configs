@@ -130,3 +130,5 @@ alias crun="cargo run"
 alias cbuild="cargo build"
 alias cbuildr="cargo build --release"
 . "$HOME/.cargo/env"
+alias kubectl='microk8s kubectl'
+alias k='microk8s kubectl'

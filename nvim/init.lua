@@ -18,4 +18,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end
 })
 
+vim.g.neovide_fullscreen = true
+
+
 require("config")

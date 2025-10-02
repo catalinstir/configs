@@ -34,7 +34,7 @@ return {
         all = function(colors)
           return {
             FloatBorder = { link = "SagaBorder" },
-            LineNr = { fg = colors.text },
+            LineNr = { fg = "#888888" },
             Folded = { fg = colors.blue },
             MatchWord = { bold = true },
             Visual = { sp = colors.text, underline = true, reverse = true },
@@ -210,6 +210,5 @@ return {
       },
     })
 
-    vim.cmd.colorscheme("catppuccin")
   end,
 }

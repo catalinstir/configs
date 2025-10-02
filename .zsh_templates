@@ -1,120 +1,172 @@
 Class() {
-	echo "Enter class name: "
-	read -r class_name
+    echo "Enter class name: "
+    read -r class_name
 
-	header_file="${class_name}.h"
-	source_file="${class_name}.cpp"
+    header_file="include/${class_name}.hpp"
+    source_file="src/${class_name}.cpp"
 
-	if [[ ! -d "header" && ! -d "source" ]]
-	then
-		echo "Create directories 'source' and 'header'? [y/n]: "
-		read -rs -k1 ans
-	else
-		ans="y"
-	fi
-	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
-	then
-		mkdir -p "header"
-		mkdir -p "source"
-		header_file="header/${header_file}"
-		source_file="source/${source_file}"
-	fi
+    mkdir -p "include"
+    mkdir -p "src"
 
-	touch "$header_file"
-	touch "$source_file"
-	if [[ -d "header" ]]
-	then
-		include_header_file="../${header_file}"
-	else
-		include_header_file="${header_file}"
-	fi
-	printf "#include \"%s\"\n" "$include_header_file" > "$source_file"
+    printf "#include \"%s.hpp\"\n\n" "$class_name" > "$source_file"
 
-	echo "Inherited from (Enter for not inherited): "
-	read -r ans
-	if [[ -n "$ans" ]]
-	then
-		parent_class="${ans}"
-		printf "#pragma once\n#include \"%s.h\"\n\nclass %s : public %s{\n\n};" \
-		"$parent_class" \
-		"$class_name" \
-		"$parent_class" \
-		> "$header_file"
-	else
-		printf "#pragma once\n\nclass %s{\n\n};" \
-		"$class_name" \
-		> "$header_file"
-	fi
+    echo "Inherited from (Enter for not inherited): "
+    read -r parent_class
 
-	MAKEFILE="Makefile"
-	if [[ -f "$MAKEFILE" ]]
-	then
-		sed -i "/^SOURCE/s|\$| ${source_file}|" "$MAKEFILE"
-	fi
+    if [[ -n "$parent_class" ]]; then
+        cat > "$header_file" <<EOF
+#pragma once
+#include "${parent_class}.hpp"
 
-	return 0
+class ${class_name} : public ${parent_class} {
+public:
+    ${class_name}();
+    ~${class_name}();
+};
+EOF
+    else
+        cat > "$header_file" <<EOF
+#pragma once
+
+class ${class_name} {
+public:
+    ${class_name}();
+    ~${class_name}();
+};
+EOF
+    fi
+
+    cat >> "$source_file" <<EOF
+${class_name}::${class_name}() {
+    // constructor
 }
 
+${class_name}::~${class_name}() {
+    // destructor
+}
+EOF
+
+    return 0
+}
+Class2() {
+    echo "Enter class name (you can use folders, e.g. models/User): "
+    read -r class_name
+
+    # Extract base name (without folder path)
+    base_name=$(basename "$class_name")
+
+    header_file="include/${class_name}.hpp"
+    source_file="src/${class_name}.cpp"
+
+    mkdir -p "$(dirname "$header_file")"
+    mkdir -p "$(dirname "$source_file")"
+
+    # Path relative to include/ (used in #include)
+    include_path="${class_name}.hpp"
+
+    # Write initial .cpp with correct include
+    printf "#include \"%s\"\n\n" "$include_path" > "$source_file"
+
+    echo "Inherited from (Enter for not inherited): "
+    read -r parent_class
+
+    if [[ -n "$parent_class" ]]; then
+        cat > "$header_file" <<EOF
+#pragma once
+#include "${parent_class}.hpp"
+
+class ${base_name} : public ${parent_class} {
+public:
+    ${base_name}();
+    ~${base_name}();
+};
+EOF
+    else
+        cat > "$header_file" <<EOF
+#pragma once
+
+class ${base_name} {
+public:
+    ${base_name}();
+    ~${base_name}();
+};
+EOF
+    fi
+
+    # Add constructor + destructor stubs to .cpp
+    cat >> "$source_file" <<EOF
+${base_name}::${base_name}() {
+    // constructor
+}
+
+${base_name}::~${base_name}() {
+    // destructor
+}
+EOF
+
+    echo "Created class: $base_name"
+    echo "  Header: $header_file"
+    echo "  Source: $source_file"
+    return 0
+}
+
+
 C++() {
-	echo "Enter source name: "
-	while read -r filename && [[ -z "$filename" ]]; do :; done
-	original_filename="$filename"
+    echo "Enter source name: "
+    while read -r filename && [[ -z "$filename" ]]; do :; done
+    original_filename="${filename%.cpp}"
 
-	if [[ "$filename" != *.cpp ]]; then
-		new_filename="${filename}.cpp"
-		filename=$new_filename
-	fi
+    [[ "$filename" != *.cpp ]] && filename="${filename}.cpp"
 
-	if [[ ! -d "header" && ! -d "source" ]]
-	then
-		echo "Create directories 'source' and 'header'? [y/n]: "
-		read -rs -k1 ans
-	else
-		ans="y"
-	fi
-	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
-	then
-		mkdir -p "source"
-		mkdir -p "header"
-		filename="source/${filename}"
-	fi
+    mkdir -p "src"
+    mkdir -p "include"
+    fullpath="src/${filename}"
+    touch "$fullpath"
 
-	touch "$filename"
-	printf "#include <iostream>\n\nint main(int argc, char** argv) {\n\n    return 0;\n}\n" > "$filename"
+    echo "Link OpenSSL? [y/n]: "
+    read -rs -k1 ssl
+    echo
 
-	if [[ ! -f "Makefile" ]]
-	then
-		echo "Create Makefile? [y/n]: "
-		read -rs -k1 ans
-		echo "Link OpenSSL? [y/n]: "
-		read -rs -k1 ssl
-	else
-		ans="n"
-		ssl="n"
-	fi
-	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
-	then
-		touch "Makefile"
-		original_filename="${original_filename%.c}"
+    printf "#include <iostream>\n" > "$fullpath"
 
-		printf "SOURCE = %s\n\nall: %s\n\n%s: %s\n\tg++ \${SOURCE} -o %s " \
-			"$filename" \
-			"$original_filename" \
-			"$original_filename" \
-			"$filename" \
-			"$original_filename" \
-			> "Makefile"
-		if [[ "$ssl" = "y" || "$ssl" = "Y" || -z "$ssl" ]]
-		then
-			printf -- "-lcrypto -Wno-deprecated-declarations\n" >> "Makefile"
-			sed -i '/#include <iostream>/a \#include <openssl/evp.h>\n#include <openssl/asn1.h>' $filename
-		else
-			printf -- "\n" >> "Makefile"
-		fi
+    if [[ "$ssl" = "y" || "$ssl" = "Y" || -z "$ssl" ]]; then
+        printf "#include <openssl/evp.h>\n#include <openssl/asn1.h>\n" >> "$fullpath"
+    fi
 
-	fi
+    printf "\nint main(int argc, char** argv) {\n\n    return 0;\n}\n" >> "$fullpath"
 
-	return 0
+    cat > CMakeLists.txt <<EOF
+cmake_minimum_required(VERSION 3.15)
+project(${original_filename})
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(include)
+
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+add_executable(${original_filename} \${SOURCES})
+
+# Boost
+find_package(Boost REQUIRED COMPONENTS filesystem system)
+if(Boost_FOUND)
+    include_directories(\${Boost_INCLUDE_DIRS})
+    target_link_libraries(${original_filename} \${Boost_LIBRARIES})
+endif()
+EOF
+
+    # OpenSSL
+    if [[ "$ssl" = "y" || "$ssl" = "Y" || -z "$ssl" ]]; then
+        cat >> CMakeLists.txt <<EOF
+
+# OpenSSL
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${original_filename} OpenSSL::Crypto)
+EOF
+    fi
+
+    echo "Project created: $original_filename"
+    echo "You can now run: cmake -S . -B build && cmake --build build"
 }
 
 C() {
@@ -127,18 +179,18 @@ C() {
 		filename=$new_filename
 	fi
 
-	if [[ ! -d "header" && ! -d "source" ]]
+	if [[ ! -d "include" && ! -d "src" ]]
 	then
-		echo "Create directories 'source' and 'header'? [y/n]: "
+		echo "Create directories 'src' and 'include'? [y/n]: "
 		read -rs -k1 ans
 	else
 		ans="y"
 	fi
 	if [[ "$ans" = "y" || "$ans" = "Y" || -z "$ans" ]]
 	then
-		mkdir -p "source"
-		mkdir -p "header"
-		filename="source/${filename}"
+		mkdir -p "src"
+		mkdir -p "include"
+		filename="src/${filename}"
 	fi
 
 	touch "$filename"
@@ -158,7 +210,7 @@ C() {
 
 		printf "SOURCE = %s\n\nall: %s\n\n%s: %s\n\tgcc \${SOURCE} -o %s\n" \
 			"$filename" \
-			"$original_filename" \
+            "$original_filename" \
 			"$original_filename" \
 			"$filename" \
 			"$original_filename" \

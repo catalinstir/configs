@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH:/home/catalin/Games/factorio/factorio/bin/x64:/home/catalin/Downloads/ghidra_11.3.1_PUBLIC
+export PATH=$HOME/bin:/usr/local/bin:$PATH:/home/catalin/Games/factorio/factorio/bin/x64:/home/catalin/Downloads/ghidra_11.3.1_PUBLIC:/snap/bin
+
+export PATH=$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -104,6 +106,7 @@ alias nemo="nohup nemo . &"
 alias p3="python3"
 alias pd3="pydoc3"
 alias devpy="source ~/.venv/dev/bin/activate"
+alias mat="matlab -nodesktop"
 
 # Configing
 alias nvimrc="cd ~/.config/nvim && nvim && cd -"
@@ -111,10 +114,11 @@ alias vimrc="nvim ~/.vimrc"
 alias zshrc="nvim ~/.zshrc"
 alias zource="source ~/.zshrc"
 alias tmuxrc="nvim ~/.tmux.conf"
+alias neoviderc="nvim ~/.config/neovide/config.toml"
 
 # System
-alias PO="poweroff"
-alias RB="reboot"
+alias PO="sudo shutdown"
+alias RB="sudo shutdown -r"
 
 # Messing around
 alias lol="l | lolcat"
@@ -130,8 +134,8 @@ alias cbuildr="cargo build --release"
 alias mna="man"
 alias Man="man -a"
 alias nivm="nvim"
-alias vim="nvim"
-alias vi="nvim"
+alias nvide="neovide &"
+alias v="nvim"
 alias ecr="echo $?"
 alias cdop="cd $OLDPWD"
 alias x="exit"
@@ -144,8 +148,10 @@ alias mkdir="mkdir -p"
 alias cdwin="cd $WIN"
 alias c="clear"
 alias r="fc -s"
-alias k="kubectl"
+alias d="docker"
+alias k="microk8s kubectl"
 alias sl="ls"
+alias m="microk8s"
 alias f="fzf --preview='cat {}'"
 alias docker-compose="docker compose"
 alias dcu="docker compose up -d"
@@ -153,6 +159,14 @@ alias dcd="docker compose down -v"
 alias dspv="docker system prune -f --volumes"
 alias ag="alias | grep"
 alias nrd="npm run dev"
+alias to_clipboard="xclip -selection clipboard"
+alias kubectl="microk8s kubectl"
+alias k="microk8s kubectl"
+alias lsb="lsb_release -a"
+alias o="open"
+alias gogh='bash -c "$(wget -qO- https://git.io/vQgMr)"'
+alias check="shellcheck"
+alias dn="dotnet"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 

@@ -1,13 +1,27 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "clangd", "rust_analyzer", "pyright", "ts_ls", "lua_ls", "cssls", "jdtls" },
+  ensure_installed = { "clangd", "rust_analyzer", "pyright", "ts_ls", "lua_ls", "cssls", "jdtls", "omnisharp", "texlab" },
 })
 
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+local omnisharp_bin = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/OmniSharp"
+
+lspconfig.omnisharp.setup({
+  cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+  capabilities = capabilities,
+  enable_editorconfig_support = true,
+  enable_ms_build_load_projects_on_demand = false,
+  enable_roslyn_analyzers = true,
+  organize_imports_on_format = true,
+  enable_import_completion = true,
+  sdk_include_prereleases = true,
+  analyze_open_documents_only = false,
+})
+
 -- General LSP setup
-local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls", "pylsp"}
+local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls", "texlab" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
