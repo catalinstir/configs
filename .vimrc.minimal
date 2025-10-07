@@ -1,0 +1,83 @@
+" ===========================
+" Minimal .vimrc (No Plugins)
+" ===========================
+
+" --- GENERAL SETTINGS ---
+
+set nocompatible
+filetype on
+filetype plugin on
+filetype indent on
+
+set number
+set ruler
+set autoindent
+set ignorecase
+set smartcase
+set noexpandtab
+set tabstop=4
+set shiftwidth=4
+set wrap
+set hlsearch
+set incsearch
+set scrolloff=3
+set sidescrolloff=5
+set laststatus=2
+set wildmenu
+set clipboard=unnamedplus
+set background=dark
+set showmode
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+set noerrorbells
+set mouse=a
+set title
+set history=500
+set backspace=eol,start,indent
+set pastetoggle=<F3>
+
+" --- KEYMAPS ---
+
+" Leader key
+nnoremap <SPACE> <Nop>
+map <Space> <Leader>
+
+" Swap ; and :
+noremap ; :
+noremap : ;
+noremap ! :!
+
+" Quick tab navigation
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" Go to last active tab
+au TabLeave * let g:lasttab = tabpagenr()
+nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+
+" --- VISUAL QUALITY OF LIFE ---
+
+syntax on
+set updatetime=300
+set wildmode=longest:full,full
+set scrolloff=3
+set sidescrolloff=5
+set cursorline
+set showcmd
+set foldcolumn=0
+set nofoldenable   " disable folding completely
+
+" --- COLORSCHEME ---
+" (You can use any built-in Vim scheme)
+colorscheme desert
+
+" --- END OF FILE ---
+
