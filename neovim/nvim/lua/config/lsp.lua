@@ -1,14 +1,14 @@
+-- Mason
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = { "clangd", "rust_analyzer", "pyright", "ts_ls", "lua_ls", "cssls", "jdtls", "omnisharp", "texlab" },
 })
 
-local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Omnisharp
 local omnisharp_bin = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/OmniSharp"
-
-lspconfig.omnisharp.setup({
+vim.lsp.config("omnisharp", {
   cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
   enable_editorconfig_support = true,
@@ -20,16 +20,16 @@ lspconfig.omnisharp.setup({
   analyze_open_documents_only = false,
 })
 
--- General LSP setup
+-- General lsp
 local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls", "texlab" }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
+for _, server in ipairs(servers) do
+  vim.lsp.config(server, {
     capabilities = capabilities,
   })
 end
 
--- Clangd-specific setup
-lspconfig.clangd.setup({
+-- clangd
+vim.lsp.config("clangd", {
   capabilities = capabilities,
   cmd = {
     "clangd",
@@ -52,8 +52,8 @@ lspconfig.clangd.setup({
   },
 })
 
--- CSS-specific setup
-lspconfig.cssls.setup({
+-- CSS
+vim.lsp.config("cssls", {
   capabilities = capabilities,
   settings = {
     css = {
@@ -83,8 +83,16 @@ lspconfig.cssls.setup({
   end,
 })
 
+-- Activate LSPs
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    vim.lsp.enable_buffer()
+  end,
+})
+
+-- Diagnostics config
 vim.diagnostic.config({
-  virtual_text = false,  -- disable inline diagnostics
+  virtual_text = false,
   signs = true,
   underline = true,
   update_in_insert = false,
@@ -104,25 +112,13 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Set quickfix keymappings",
 })
 
--- Keymaps for diagnostics
+-- Diagnostics keymaps
 vim.keymap.set('n', '<leader>e', function()
   vim.diagnostic.open_float({
     scope = "line",
     border = "rounded",
     max_width = 80,
     source = "always",
-    format = function(diagnostic)
-      local message = diagnostic.message
-      if diagnostic.code then
-        message = string.format("[%s] %s", diagnostic.code, message)
-      end
-      if diagnostic.relatedInformation then
-        for _, related in ipairs(diagnostic.relatedInformation) do
-          message = message .. '\n' .. related.message
-        end
-      end
-      return message
-    end,
   })
 end, { desc = "Show detailed diagnostic" })
 
@@ -132,4 +128,17 @@ vim.keymap.set('n', '<leader>q', function()
   vim.cmd('wincmd J')
 end, { desc = "Show all diagnostics in quickfix" })
 
-vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, { desc = "Show hover information" })
+-- Autoshow hover info
+vim.o.updatetime = 500 -- delay before CursorHold triggers (in ms)
+
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local clients = vim.lsp.get_clients({ bufnr = bufnr })
+    if next(clients) ~= nil then
+      vim.lsp.buf.hover()
+    end
+  end,
+  desc = "Show hover diagnostics automatically",
+})
+

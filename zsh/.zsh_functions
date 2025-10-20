@@ -1,7 +1,10 @@
 chmac() {
-	sudo ifconfig wlp0s20f3 down
-	sudo ifconfig wlp0s20f3 hw ether 34:6F:24:EA:56:1B
-	sudo ifconfig wlp0s20f3 up
+    IFACE="wlp0s20f3"
+    NEWMAC="34:6F:24:EA:56:1B"
+
+    sudo ip link set dev "$IFACE" down
+    sudo ip link set dev "$IFACE" address "$NEWMAC"
+    sudo ip link set dev "$IFACE" up
 }
 CC() {
 	gcc $1.c -Wall -o $1 -lm && ./$1 && rm $1
@@ -114,3 +117,6 @@ mkcd() {
     mkdir -p "$1" && cd "$1"
 }
 
+# vi() {
+#     command /usr/local/bin/neovide "$@" &
+# }

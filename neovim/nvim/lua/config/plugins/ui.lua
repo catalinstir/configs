@@ -2,9 +2,23 @@ return {
   "nvim-lualine/lualine.nvim",
   {
     "nvim-tree/nvim-tree.lua",
-    cmd = "NvimTreeToggle",  -- Lazy-loads the plugin on this command
+    cmd = "NvimTreeToggle",
     config = function()
       require("nvim-tree").setup({
+        view = {
+          width = 25,
+          side = "left",
+        },
+        renderer = {
+          highlight_git = true,
+          highlight_opened_files = "none",
+        },
+        filters = {
+          dotfiles = false,
+        },
+        git = {
+          enable = true,
+        },
       })
     end,
   },

@@ -1,7 +1,6 @@
 local schemes = {
   "catppuccin",
   "kanagawa-dragon",
-  "default",
   "catppuccin-mocha",
   "catppuccin-macchiato",
   "kanagawa",

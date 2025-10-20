@@ -6,7 +6,7 @@ export PATH=$HOME/.local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
+export JAVA_HOME=/opt/jdk-21
 
 export WIN="/mnt/36280B70280B2F05"
 
@@ -99,14 +99,9 @@ source ~/.zsh_functions
 source ~/.zsh_templates
 
 # Programs
-alias index="nohup vivaldi index.html &"
-alias viv="nohup vivaldi &> /dev/null & disown"
-alias arduino="/home/catalin/Projects/Arduino/arduino-ide_2.3.3_Linux_64bit.AppImage &"
-alias nemo="nohup nemo . &"
 alias p3="python3"
 alias pd3="pydoc3"
 alias devpy="source ~/.venv/dev/bin/activate"
-alias mat="matlab -nodesktop"
 
 # Configing
 alias nvimrc="cd ~/.config/nvim && nvim && cd -"
@@ -115,11 +110,7 @@ alias zshrc="nvim ~/.zshrc"
 alias zource="source ~/.zshrc"
 alias tmuxrc="nvim ~/.tmux.conf"
 alias neoviderc="nvim ~/.config/neovide/config.toml"
-
-# System
-alias PO="sudo shutdown"
-alias RB="sudo shutdown -r"
-
+#
 # Messing around
 alias lol="l | lolcat"
 alias cmat="cmatrix -u 9| lolcat -p 100 -i"
@@ -133,16 +124,12 @@ alias cbuildr="cargo build --release"
 # QOL
 alias mna="man"
 alias Man="man -a"
-alias nivm="nvim"
-alias nvide="neovide &"
-alias v="nvim"
+alias nivm="/usr/local/bin/nvim"
 alias ecr="echo $?"
-alias cdop="cd $OLDPWD"
 alias x="exit"
 alias make="make -j$(nproc)"
 alias all="make all"
 alias help="run-help"
-alias clr="clear"
 alias rmf="rm -rf"
 alias mkdir="mkdir -p"
 alias cdwin="cd $WIN"
@@ -167,6 +154,7 @@ alias o="open"
 alias gogh='bash -c "$(wget -qO- https://git.io/vQgMr)"'
 alias check="shellcheck"
 alias dn="dotnet"
+alias helgrind="valgrind --tool=helgrind"
 
 # POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 
