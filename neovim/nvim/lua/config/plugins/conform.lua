@@ -3,7 +3,6 @@ return {
 
   config = function()
     require("conform").setup({
-      -- format_on_save = false,
       formatters_by_ft = {
         lua = { "stylua" },
 
@@ -12,11 +11,30 @@ return {
         
         rust = { "rustfmt", lsp_format = "fallback" },
         
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        typescript = { "prettierd", "prettier", stop_after_first = true },
+        -- Remove prettierd since it's not installed, use only prettier
+        javascript = { "prettier" },
+        typescript = { "prettier" },
         
         python = { "isort", "black" }, 
       },
+    })
+
+    -- Add keymap for formatting
+    vim.keymap.set({ "n", "v" }, "<leader>fm", function()
+      require("conform").format({
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
+      })
+    end, { desc = "Format file or range" })
+
+    -- Optional: Format on save
+    -- Uncomment the lines below if you want automatic formatting on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*",
+      callback = function(args)
+        require("conform").format({ bufnr = args.buf })
+      end,
     })
   end
 }

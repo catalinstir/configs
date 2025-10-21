@@ -1,0 +1,38 @@
+---
+# BasedOnStyle: LLVM
+# You can also use: Google, Chromium, Mozilla, WebKit, Microsoft, GNU
+BasedOnStyle: LLVM
+
+# Indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+
+# Braces
+BreakBeforeBraces: Attach
+# Options: Attach, Linux, Mozilla, Stroustrup, Allman, Whitesmiths, GNU, WebKit, Custom
+
+# Pointer and reference alignment
+PointerAlignment: Left
+# Options: Left, Right, Middle
+
+# Column limit
+ColumnLimit: 100
+
+# Other common options
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+
+# Spacing
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInAngles: false
+
+# Line breaks
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: Yes

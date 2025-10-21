@@ -8,7 +8,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Omnisharp
 local omnisharp_bin = vim.fn.stdpath("data") .. "/mason/packages/omnisharp/OmniSharp"
-vim.lsp.config.omnisharp = {
+vim.lsp.config("omnisharp", {
   cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
   enable_editorconfig_support = true,
@@ -18,18 +18,18 @@ vim.lsp.config.omnisharp = {
   enable_import_completion = true,
   sdk_include_prereleases = true,
   analyze_open_documents_only = false,
-}
+})
 
 -- General lsp
 local servers = { "rust_analyzer", "pyright", "ts_ls", "lua_ls", "jdtls", "texlab" }
 for _, server in ipairs(servers) do
-  vim.lsp.config[server] = {
+  vim.lsp.config(server, {
     capabilities = capabilities,
-  }
+  })
 end
 
 -- clangd
-vim.lsp.config.clangd = {
+vim.lsp.config("clangd", {
   capabilities = capabilities,
   cmd = {
     "clangd",
@@ -50,10 +50,10 @@ vim.lsp.config.clangd = {
       },
     },
   },
-}
+})
 
 -- CSS
-vim.lsp.config.cssls = {
+vim.lsp.config("cssls", {
   capabilities = capabilities,
   settings = {
     css = {
@@ -81,34 +81,16 @@ vim.lsp.config.cssls = {
     }
     return true
   end,
-}
-
--- Enable LSP servers for their filetypes
-vim.lsp.enable({
-  "clangd",
-  "cssls",
-  "rust_analyzer",
-  "pyright", 
-  "ts_ls",
-  "lua_ls",
-  "jdtls",
-  "texlab",
-  "omnisharp",
 })
 
--- LSP Keymaps (set on attach)
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = { buffer = args.buf, noremap = true, silent = true }
+-- Activate LSPs
+vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
+  callback = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local filetype = vim.bo[bufnr].filetype
     
-    -- LSP keymaps
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts)
+    -- LSP will automatically attach based on filetype
+    -- No manual intervention needed with modern LSP config
   end,
 })
 
@@ -150,17 +132,19 @@ vim.keymap.set('n', '<leader>q', function()
   vim.cmd('wincmd J')
 end, { desc = "Show all diagnostics in quickfix" })
 
--- Autoshow hover info (optional - comment out if annoying)
-vim.o.updatetime = 1000
-
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local clients = vim.lsp.get_clients({ bufnr = bufnr })
-    if next(clients) ~= nil then
-      -- Use pcall to prevent errors when hover is not available
-      pcall(vim.lsp.buf.hover)
-    end
-  end,
-  desc = "Show hover diagnostics automatically",
+-- Configure LSP hover window appearance
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+  max_width = 80,
+  max_height = 20,
+  focusable = false, -- Prevents entering the hover window
+  silent = true,
+  -- Custom highlighting
+  style = "minimal",
 })
+
+-- Custom highlight groups for prettier hover window
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#2e3440", fg = "#d8dee9" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "#2e3440", fg = "#81a1c1" })
+
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "Show hover information" })

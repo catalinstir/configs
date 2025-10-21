@@ -12,6 +12,9 @@ return {
     vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end,
       { desc = "Harpoon add file" })
 
+    vim.keymap.set("n", "<leader>hr", function() harpoon:list():remove() end,
+      { desc = "Harpoon remove current file" })
+
     vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
       { desc = "Harpoon menu" })
 
@@ -26,6 +29,9 @@ return {
       { desc = "Next Harpoon file" })
     vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end,
       { desc = "Prev Harpoon file" })
+
+    -- Clear all harpoon marks
+    vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() end,
+      { desc = "Clear all Harpoon marks" })
   end,
 }
-
