@@ -28,8 +28,13 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ### 4. Copy Config Files
 ```bash
 cp .zshrc ~/
-cp .zsh_functions ~/
-cp .zsh_templates ~/
+
+# Create a ~/.zsh directory for the other config files
+mkdir -p ~/.zsh
+cp zsh/.zsh_functions ~/.zsh/
+cp zsh/.zsh_templates ~/.zsh/
+cp zsh/.zsh_aliases ~/.zsh/
+
 source ~/.zshrc
 ```
 

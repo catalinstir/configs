@@ -1,0 +1,29 @@
+fork = false
+frame = "none"
+idle = true
+maximized = true
+mouse-cursor-icon = "arrow"
+neovim-bin = "/usr/local/bin/nvim"
+no-multigrid = false
+srgb = false
+tabs = true
+title-hidden = false
+vsync = true
+wsl = false
+
+[font]
+normal = ["JetBrainsMono Nerd Font"]
+size = 8.0
+
+[box-drawing]
+mode = "font-glyph"
+
+[box-drawing.sizes]
+default = [2, 4]
+
+[floating-shadow]
+enabled = true
+# Shadow color (RGBA: red, green, blue, alpha)
+# Default is semi-transparent black
+color = "#000000FF"  # Black with 50% opacity (increase last 2 digits for darker)
+# Or try: color = "#000000CC" for darker shadow (80% opacity)

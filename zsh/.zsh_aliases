@@ -1,0 +1,36 @@
+# Python
+alias p3="python3"
+alias pd3="pydoc3"
+alias devpy="source ~/.venv/dev/bin/activate"
+
+# Docker/K8s
+alias d="docker"
+alias k="microk8s kubectl"
+alias m="microk8s"
+alias docker-compose="docker compose"
+alias dcu="docker compose up -d"
+alias dcd="docker compose down -v"
+alias dspv="docker system prune -f --volumes"
+alias kubectl="microk8s kubectl"
+alias k="microk8s kubectl"
+
+# Programs
+alias to_clipboard="xclip -selection clipboard"
+alias helgrind="valgrind --tool=helgrind"
+alias gogh='bash -c "$(wget -qO- https://git.io/vQgMr)"'
+alias dn="dotnet"
+alias vide="neovide"
+
+# QOL
+alias f="fzf --preview='cat {}'"
+alias sl="ls"
+alias mna="man"
+alias nivm="/usr/local/bin/nvim"
+alias x="exit"
+alias make="make -j$(nproc)"
+alias help="run-help"
+alias c="clear"
+alias r="fc -s"
+alias ag="alias | grep"
+alias lsb="lsb_release -a"
+alias o="open"

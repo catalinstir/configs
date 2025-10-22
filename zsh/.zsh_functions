@@ -1,122 +1,93 @@
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
 chmac() {
+    MACFILE='~/pub/MAC/mta_mac.txt'
     IFACE="wlp0s20f3"
-    NEWMAC="34:6F:24:EA:56:1B"
+    NEWMAC=$(cat "$MACFILE")
 
     sudo ip link set dev "$IFACE" down
     sudo ip link set dev "$IFACE" address "$NEWMAC"
     sudo ip link set dev "$IFACE" up
 }
-CC() {
-	gcc $1.c -Wall -o $1 -lm && ./$1 && rm $1
-}
+
 Cmake() {
     cmake -S . -B build && cmake --build build
 }
-xampp() {
-	sudo /opt/lampp/xampp start
-}
-add_executables_to_gitignore() {
-    if [ ! -f .gitignore ]; then
-        echo ".gitignore not found in the current directory."
-        return 1
-    fi
 
-    echo "Searching for untracked executables with no extension..."
-
-    # Patterns to exclude by name (feel free to extend)
-    local excluded_names=("Makefile" "README" "LICENSE" "REPORT.txt")
-
-    executables=()
-    while IFS= read -r file; do
-        filename=$(basename "$file")
-
-        # Check if it's a regular executable file with no extension
-        if [[ -f "$file" && -x "$file" && "$filename" != *.* ]]; then
-            # Exclude known non-executables
-            skip=false
-            for ex in "${excluded_names[@]}"; do
-                if [[ "$filename" == "$ex" ]]; then
-                    skip=true
-                    break
-                fi
-            done
-            $skip || executables+=("$file")
-        fi
-    done < <(git ls-files --others --exclude-standard)
-
-    if [ ${#executables[@]} -eq 0 ]; then
-        echo "No matching untracked executables found."
-        return 0
-    fi
-
-    echo "Found the following untracked executables:"
-    for file in "${executables[@]}"; do
-        echo "  - $file"
-    done
-
-    echo -n "Add these to .gitignore? [y/N]: "
-    read -r confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
-        for file in "${executables[@]}"; do
-            if ! grep -qxF "$file" .gitignore; then
-                echo "$file" >> .gitignore
-                echo "Added: $file"
-            fi
-        done
-        echo "Done!"
-    else
-        echo "Aborted. No changes made to .gitignore."
-    fi
-}
-clean_empty_dirs() {
-    find . -type d -empty -exec rm -r {} \; -exec echo "Deleted empty directory: {}" \;
-}
-backup_gitignore() {
-    if [ -f .gitignore ]; then
-        cp .gitignore .gitignore.bak
-        echo "Backup created: .gitignore.bak"
-    else
-        echo ".gitignore file not found!"
-    fi
-}
 clean_old_logs() {
     local days=$1
     find . -type f -name "*.log" -mtime +$days -exec rm -v {} \;
     echo "Removed logs older than $days days."
 }
-directory_size_report() {
-    du -sh */ | sort -rh
-}
-Nasm() {
-    if [[ $# -ne 1 ]]
-    then
-        echo "Invalid number of parameters."
-        echo "Expected one .asm file"
-        return 1;
-    fi
 
-    file=$1
-    if [ "${file##*.}" != "asm" ]
-    then
-        echo "Invalid file."
-        echo "Expected .asm file"
-        return 1;
-    fi
-
-    basename="${file%.*}"
-   	nasm -f elf32 -o temp.o "${file}"
-	ld -m elf_i386 -o "${basename}" temp.o   
-    rm temp.o
-}
 
 gdrive() {
-    rclone mount 'gdrive:' ~/gdrive --vfs-cache-mode full --daemon
+    local MOUNT_POINT="$HOME/gdrive"
+
+    # Parse args
+    case "$1" in
+        -m|--mount)
+            echo "Mounting Google Drive to $MOUNT_POINT..."
+            mkdir -p "$MOUNT_POINT"
+            rclone mount "gdrive:" "$MOUNT_POINT" --vfs-cache-mode full --daemon
+            ;;
+        -u|--umount|--unmount)
+            echo "Unmounting Google Drive from $MOUNT_POINT..."
+            if mountpoint -q "$MOUNT_POINT"; then
+                fusermount -u "$MOUNT_POINT" 2>/dev/null || umount "$MOUNT_POINT"
+            else
+                echo "Nothing is mounted at $MOUNT_POINT"
+            fi
+            ;;
+        --help|-h|"")
+            echo "Usage: gdrive [OPTION]
+
+Options:
+  -m, --mount        Mount Google Drive to ~/gdrive
+  -u, --unmount      Unmount Google Drive
+  --help             Show this help message"
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Try --help for usage."
+            return 1
+            ;;
+    esac
 }
 
-mkcd() {
-    mkdir -p "$1" && cd "$1"
-}
+neovide() {
+    local DETACH=0
 
-# vi() {
-#     command /usr/local/bin/neovide "$@" &
-# }
+    # Parse flags
+    for arg in "$@"; do
+        case "$arg" in
+            -d)
+                DETACH=1
+                shift
+                ;;
+            --help)
+                echo "Usage: neovide [OPTIONS] [ARGS...]
+
+Launch Neovide from the terminal.
+
+Options:
+  -d          Detach and close terminal after launch
+  --help      Show this help message and exit
+
+Any additional ARGS are passed to Neovide itself."
+                return 0
+                ;;
+        esac
+    done
+
+    # Launch Neovide
+    nohup /usr/local/bin/neovide "$@" >/dev/null 2>&1 &
+    disown
+
+    # Close terminal if -d flag was given
+    if [ $DETACH -eq 1 ]; then
+        exit
+    fi
+}
