@@ -16,6 +16,29 @@ vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = tr
 vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
 vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
 vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
+vim.keymap.set("n", "<C-S-h>", "<C-w>H", {
+	noremap = true,
+	silent = true,
+	desc = "Move window to far left",
+})
+
+vim.keymap.set("n", "<C-S-j>", "<C-w>J", {
+	noremap = true,
+	silent = true,
+	desc = "Move window to very bottom",
+})
+
+vim.keymap.set("n", "<C-S-k>", "<C-w>K", {
+	noremap = true,
+	silent = true,
+	desc = "Move window to very top",
+})
+
+vim.keymap.set("n", "<C-S-l>", "<C-w>L", {
+	noremap = true,
+	silent = true,
+	desc = "Move window to far right",
+})
 
 vim.keymap.set("n", "<leader>km", "<cmd>Telescope keymaps<cr>", { desc = "Keymap Search" })
 vim.keymap.set(
@@ -61,8 +84,6 @@ end, { desc = "Swap with previous tab" })
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "New tab" })
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "Close tab" })
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "Close all other tabs" })
-vim.keymap.set("n", "<leader>tl", ":tabmove +1<CR>", { desc = "Move tab right" })
-vim.keymap.set("n", "<leader>th", ":tabmove -1<CR>", { desc = "Move tab left" })
 vim.keymap.set("n", "<Tab>", "gt", { desc = "Next tab" })
 vim.keymap.set("n", "<S-Tab>", "gT", { desc = "Previous tab" })
 vim.keymap.set("n", "<leader>td", ":tab split<CR>", { desc = "Duplicate current tab" })

@@ -1,15 +1,14 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH:/home/catalin/Games/factorio/factorio/bin/x64:/home/catalin/Downloads/ghidra_11.3.1_PUBLIC:/snap/bin
-
 export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/.npm-global/bin:$PATH"
+# export PATH="$PATH:/usr/local/mcuxpressoide-25.6.136/ide/tools/bin"
+export PATH="$PATH:/usr/local/mcuxpressoide-25.6.136/ide/plugins/com.nxp.mcuxpresso.tools.linux_25.6.0.202501151204/tools/bin"
 
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
 export JAVA_HOME=/opt/jdk-21
-
 export WIN="/mnt/36280B70280B2F05"
-
 export GH="https://github.com"
 
 ZSH_THEME="gallois"
@@ -22,9 +21,7 @@ CASE_SENSITIVE="false"
 
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
-zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
+zstyle ':omz:update' mode reminder
 zstyle ':omz:update' frequency 10
 
 # Uncomment the following line if pasting URLs and other text is messed up.
@@ -49,11 +46,7 @@ HIST_STAMPS="dd-mm-yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
+#
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
@@ -67,99 +60,16 @@ plugins=(
 	colored-man-pages
 )
 
-source $ZSH/oh-my-zsh.sh
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 prompt_context(){}
 
-# make terminal window fullscreen
-# wmctrl -r :ACTIVE: -b toggle,maximized_vert,maximized_horz
-# sleep 0.4
-# date and time
-# date | figlet -t
-# echo "\n"
-# fortune told by animal 
-# fortune -l | cowsay -f `ls -1 /usr/share/cowsay/cows/ | sort -R | head -1` -n
+# STARTING POINT
 
-# Other functions
-source ~/.zsh_functions
-source ~/.zsh_templates
+# Source other zsh components
+source $ZSH/oh-my-zsh.sh
+source ~/.zsh/.zsh_functions
+source ~/.zsh/.zsh_templates
+source ~/.zsh/.zsh_aliases
 
-# Programs
-alias p3="python3"
-alias pd3="pydoc3"
-alias devpy="source ~/.venv/dev/bin/activate"
-
-# Configing
-alias nvimrc="cd ~/.config/nvim && nvim && cd -"
-alias vimrc="nvim ~/.vimrc"
-alias zshrc="nvim ~/.zshrc"
-alias zource="source ~/.zshrc"
-alias tmuxrc="nvim ~/.tmux.conf"
-alias neoviderc="nvim ~/.config/neovide/config.toml"
-#
-# Messing around
-alias lol="l | lolcat"
-alias cmat="cmatrix -u 9| lolcat -p 100 -i"
-
-# Rust
-alias ccheck="cargo check"
-alias crun="cargo run"
-alias cbuild="cargo build"
-alias cbuildr="cargo build --release"
-
-# QOL
-alias mna="man"
-alias Man="man -a"
-alias nivm="/usr/local/bin/nvim"
-alias ecr="echo $?"
-alias x="exit"
-alias make="make -j$(nproc)"
-alias all="make all"
-alias help="run-help"
-alias rmf="rm -rf"
-alias mkdir="mkdir -p"
-alias cdwin="cd $WIN"
-alias c="clear"
-alias r="fc -s"
-alias d="docker"
-alias k="microk8s kubectl"
-alias sl="ls"
-alias m="microk8s"
-alias f="fzf --preview='cat {}'"
-alias docker-compose="docker compose"
-alias dcu="docker compose up -d"
-alias dcd="docker compose down -v"
-alias dspv="docker system prune -f --volumes"
-alias ag="alias | grep"
-alias nrd="npm run dev"
-alias to_clipboard="xclip -selection clipboard"
-alias kubectl="microk8s kubectl"
-alias k="microk8s kubectl"
-alias lsb="lsb_release -a"
-alias o="open"
-alias gogh='bash -c "$(wget -qO- https://git.io/vQgMr)"'
-alias check="shellcheck"
-alias dn="dotnet"
-alias helgrind="valgrind --tool=helgrind"
-
-# POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
-
-[ -f "/home/catalin/.ghcup/env" ] && . "/home/catalin/.ghcup/env" # ghcup-env
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Start global env
+source ~/.venv/dev/bin/activate
